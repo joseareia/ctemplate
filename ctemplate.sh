@@ -59,6 +59,6 @@ fi
 shift "$((OPTIND-1))"
 
 echo -e "Copying the necessary files..."
-echo -e "[SUCCESS] Installation complete!"
+echo -e "[SUCCESS] Template successfully imported!"
 
 #End of script
