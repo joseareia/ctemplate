@@ -11,6 +11,7 @@ Follow this steps to make the script run globally in your machine.
 ```shell
 $ git clone https://github.com/joseareia/ctemplate.git
 $ cd ctemplate
+$ chmod +x install.sh ctemplate.sh
 $ ./install.sh
 ```
 
