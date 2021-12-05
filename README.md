@@ -23,7 +23,7 @@ While executing the script you can pass a directory to store the new template al
 // Without any arguments
 $ ctemplate
 
-// Without -p flag followed by the path
+// With -p flag followed by the path
 $ ctemplate -p /some/random/directory
 ```
 
