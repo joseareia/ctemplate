@@ -1,10 +1,12 @@
-## CTemplate
+# CTemplate
 
 Simple bash script to generate a C template.
 
-### Procedures
+### Installation
 
 Follow this steps to make the script run globally in your machine.
+
+**Note**: Make sure that you have the following directories in your system: `/opt/` and `/usr/local/bin`.
 
 ```shell
 git clone https://github.com/joseareia/ctemplate.git
