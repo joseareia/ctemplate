@@ -44,6 +44,8 @@ while getopts 'hsp:path' opt; do
 	esac
 done
 
+echo -e "Copying the necessary files..."
+
 if [ ! -z "$s_flag" ]; then
 	if [ ! -z "$p_flag" ]; then
 		cp --preserve $i_path/template_s/* $path
@@ -58,7 +60,6 @@ fi
 
 shift "$((OPTIND-1))"
 
-echo -e "Copying the necessary files..."
 echo -e "[SUCCESS] Template successfully imported!"
 
 #End of script
