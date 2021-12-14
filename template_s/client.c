@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     /* Loop or function --- Insert "recvfrom" and "sendto" */
 
     /* Example of "sendto" */
-    if (sendto(socket_udp, args.UTF8_arg, strlen(args.UTF8_arg), 0,
+    if (sendto(socket_udp, ARGUMENT, SIZEOF_ARGUMENT, 0,
             (struct sockaddr *) &server_addr, sizeof(struct sockaddr_in)) == -1) {
         ERROR(3, "sendto() failed");
     }
