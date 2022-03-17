@@ -1,6 +1,6 @@
 # CTemplate
 
-Simple bash script to generate a C template.
+Bash script to generate a C template.
 
 ### Installation
 
