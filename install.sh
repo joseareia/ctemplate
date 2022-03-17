@@ -1,7 +1,13 @@
 #!/bin/bash
 
-sudo rm -r /opt/ctemplate
-sudo rm -r /usr/local/bin/ctemplate
+if [ ! -d "/opt" ]; then
+    sudo mkdir /opt
+fi
+
+if [ -d "/opt/ctemplate" ]; then
+    sudo rm -r /opt/ctemplate
+    sudo rm -r /usr/local/bin/ctemplate
+fi
 
 sudo mkdir /opt/ctemplate
 
