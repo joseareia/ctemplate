@@ -46,6 +46,12 @@ done
 
 echo -e "Copying the necessary files..."
 
+if [ ! -z "$p_flag" ] && [ ! -d "$path" ]; then
+	echo -e "The following directory does not exist: $path"
+    exit_abnormal >&2
+    exit 1
+fi
+
 if [ ! -z "$s_flag" ]; then
 	if [ ! -z "$p_flag" ]; then
 		cp --preserve $i_path/template_s/* $path
