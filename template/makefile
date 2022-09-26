@@ -1,8 +1,6 @@
-# Easily adaptable makefile
-# Note: remove comments (#) to activate some features
-#
-# author Vitor Carreira
-# date 2010-09-26 / updated: 2016-03-15 (Patricio)
+# Directories
+DIR_GENGETOPT=./gengetopt
+DIR_LIBS=./libs
 
 # Libraries to include (if any)
 LIBS=#-lm -pthread
@@ -17,60 +15,58 @@ LDFLAGS=#-pg
 # IFLAGS=-br -brs -brf -npsl -ce -cli4 -bli4 -nut
 IFLAGS=-linux -brs -brf -br
 
-# Name of the executable
-PROGRAM=prog
+OUTPUT=prog
+PROG=main
+PROG_OPT_NODIR=prog_opt
+PROG_OPT=$(DIR_GENGETOPT)/$(PROG_OPT_NODIR)
+PROG_OBJS=$(PROG).o $(DIR_LIBS)/debug.o $(DIR_LIBS)/memory.o $(PROG_OPT).o
+PROG_HEADERS=$(PROG).c $(DIR_LIBS)/debug.h $(DIR_LIBS)/memory.h $(PROG_OPT).h
 
-# Prefix for the gengetopt file (if gengetopt is used)
-PROGRAM_OPT=args
+# ! DEPENDENCIES GO TO - # Dependencies vendor
 
-# Object files required to build the executable
-PROGRAM_OBJS=main.o debug.o memory.o $(PROGRAM_OPT).o
+# Specifies which targets are not files
+.PHONY: clean all docs indent debugon args optimize
 
-# Clean and all are not files
-.PHONY: clean all docs indent debugon
-
-all: $(PROGRAM)
+all: args $(PROG)
 
 # activate DEBUG, defining the SHOW_DEBUG macro
 debugon: CFLAGS += -D SHOW_DEBUG -g
-debugon: $(PROGRAM)
+debugon: $(PROG)
 
 # activate optimization (-O...)
 OPTIMIZE_FLAGS=-O2 # possible values (for gcc): -O2 -O3 -Os -Ofast
 optimize: CFLAGS += $(OPTIMIZE_FLAGS)
 optimize: LDFLAGS += $(OPTIMIZE_FLAGS)
-optimize: $(PROGRAM)
+optimize: $(PROG)
 
-$(PROGRAM): $(PROGRAM_OBJS)
-	$(CC) -o $@ $(PROGRAM_OBJS) $(LIBS) $(LDFLAGS)
+$(PROG): $(PROG_OBJS)
+	$(CC) -o $(OUTPUT) $(PROG_OBJS) $(LIBS)
 
 # Dependencies
-main.o: main.c debug.h memory.h $(PROGRAM_OPT).h
-$(PROGRAM_OPT).o: $(PROGRAM_OPT).c $(PROGRAM_OPT).h
+$(PROG).o: $(PROG_HEADERS)
+$(PROG_OPT).o: $(PROG_OPT).c $(PROG_OPT).h
 
-debug.o: debug.c debug.h
-memory.o: memory.c memory.h
+# Dependencies vendor
+$(DIR_LIBS)/debug.o: $(DIR_LIBS)/debug.c $(DIR_LIBS)/debug.h
+$(DIR_LIBS)/memory.o: $(DIR_LIBS)/memory.c $(DIR_LIBS)/memory.h
 
 # disable warnings from gengetopt generated files
-$(PROGRAM_OPT).o: $(PROGRAM_OPT).c $(PROGRAM_OPT).h
-	$(CC) -ggdb -std=c11 -pedantic -c $<
+$(PROG_OPT).o: $(PROG_OPT).c $(PROG_OPT).h
+	$(CC) -ggdb -std=c11 -pedantic -c -o $@ $<
 
 #how to create an object file (.o) from C file (.c)
 .c.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Generates command line arguments code from gengetopt configuration file
-$(PROGRAM_OPT).c $(PROGRAM_OPT).h: $(PROGRAM_OPT).ggo
-	gengetopt < $(PROGRAM_OPT).ggo --file-name=$(PROGRAM_OPT)
+$(PROG_OPT).c $(PROG_OPT).h: $(PROG_OPT).ggo
+	gengetopt < $(PROG_OPT).ggo --file-name=$(PROG_OPT_NODIR)  --set-package=$(PROG) --output-dir=$(DIR_GENGETOPT)
 
 clean:
-	rm -f *.o core.* *~ $(PROGRAM) *.bak $(PROGRAM_OPT).h $(PROGRAM_OPT).c
+	rm -f *.o core.* *~ .*~ $(PROG) $(OUTPUT) *.bak $(PROG_OPT).h $(PROG_OPT).c $(DIR_GENGETOPT)/*.o $(DIR_LIBS)/*.o
 
 docs: Doxyfile
 	doxygen Doxyfile
-
-Doxyfile:
-	doxygen -g Doxyfile
 
 # entry to create the list of dependencies
 depend:
@@ -88,3 +84,6 @@ pmccabe:
 # entry to run the cppcheck tool
 cppcheck:
 	cppcheck --enable=all --verbose *.c *.h
+
+args:
+	gengetopt < $(PROG_OPT).ggo --file-name=$(PROG_OPT_NODIR)  --set-package=$(PROG) --output-dir=$(DIR_GENGETOPT)

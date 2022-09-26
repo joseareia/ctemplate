@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @brief Description
- * @date 2018-1-1
+ * @date 1970-1-1
  * @author name of author
  */
 
@@ -13,8 +13,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "debug.h"
-#include "memory.h"
+#include "libs/debug.h"
+#include "libs/memory.h"
 
 int main(int argc, char *argv[]) {
     /* Disable warnings */
