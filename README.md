@@ -17,7 +17,7 @@ $ ./install.sh
 
 ### Usage
 
-While executing the script you can pass a directory to store the new template along side with the flag `-p` or just simple run it with the `-n` to specify the name of the project.
+While executing the script you can pass a directory to store the new template along side with the flag `-p` or just simple run it with the `-n` flag to specify the name of the project.
 
 
 ```shell
