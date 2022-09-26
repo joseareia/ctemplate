@@ -17,15 +17,15 @@ $ ./install.sh
 
 ### Usage
 
-While executing the script you can pass a directory to store the new template along side with the flag `-p` or just simple run it without any arguments to store in the current directory as follow.
+While executing the script you can pass a directory to store the new template along side with the flag `-p` or just simple run it with the `-n` to specify the name of the project.
 
 
 ```shell
-// Without any arguments
-$ ctemplate
+// Simple usage
+$ ctemplate -n my_project
 
 // With -p flag followed by the path
-$ ctemplate -p /some/random/directory
+$ ctemplate -n my_project -p /some/random/directory
 ```
 
 It is possible to activate the flag `-s` which will create a new client-server template: `$ ctemplate -s`.
